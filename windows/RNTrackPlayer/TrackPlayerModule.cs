@@ -167,12 +167,7 @@ namespace TrackPlayer
             if(Utils.CheckPlayback(player, promise)) return;
 
             string id = player.GetCurrentTrack()?.id;
-
-            if(id != null) {
-                promise.Resolve(id);
-            } else {
-                promise.Reject("track", "No track playing");
-            }
+            promise.Resolve(id)
         }
 
         [ReactMethod]
