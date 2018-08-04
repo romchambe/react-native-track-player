@@ -115,9 +115,14 @@ class RNTrackPlayer: RCTEventEmitter, MediaWrapperDelegate {
     func setupPlayer(config: [String: Any], resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        } catch {
+            reject("setup_audio_session_category_failed", "Setting category to AVAudioSessionCategoryPlayback failed", error)
+            return
+        }
+        do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-            reject("setup_audio_session_failed", "Failed to setup audio session", error)
+            reject("setup_audio_session_set_active_failed", "Failed to set audio session as active", error)
         }
         
         resolve(NSNull())
