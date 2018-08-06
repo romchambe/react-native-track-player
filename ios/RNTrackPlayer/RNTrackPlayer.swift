@@ -116,13 +116,13 @@ class RNTrackPlayer: RCTEventEmitter, MediaWrapperDelegate {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
         } catch {
-            reject("setup_audio_session_category_failed", "Setting category to AVAudioSessionCategoryPlayback failed", error)
+            reject("setup_audio_session_category_failed", "Setting category to AVAudioSessionCategoryPlayback failed: " + error.localizedDescription, error)
             return
         }
         do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch {
-            reject("setup_audio_session_set_active_failed", "Failed to set audio session as active", error)
+            reject("setup_audio_session_set_active_failed", "Failed to set audio session as active: " + error.localizedDescription, error)
         }
         
         resolve(NSNull())
