@@ -284,6 +284,8 @@ public class MediaNotification {
                 "TIT-L01",
                 "GEM-701L",
                 "ALE-L21",
+                "P2",
+                "Lenovo P2",
                 "HUAWEI TAG-L01",
                 "HUAWEI TIT-U02",
                 "HUAWEI TAG-L21",
