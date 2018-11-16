@@ -281,6 +281,7 @@ public class MediaNotification {
 
     private boolean shouldUseStyle() {
         return !Arrays.asList(
+                "TIT-AL00",
                 "TIT-L01",
                 "GEM-701L",
                 "ALE-L21",
@@ -291,6 +292,8 @@ public class MediaNotification {
                 "MeizuM3s",
                 "Meizu M3S",
                 "M3s",
+                "HUAWEI TIT-AL00",
+                "HUAWEI TIT-L01",
                 "HUAWEI TAG-L01",
                 "HUAWEI TIT-U02",
                 "HUAWEI TAG-L21",
