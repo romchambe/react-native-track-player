@@ -2,15 +2,12 @@ package com.guichaguri.trackplayer.service;
 
 import android.app.Activity;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.session.MediaButtonReceiver;
 
@@ -20,7 +17,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
-import com.guichaguri.trackplayer.R;
 import javax.annotation.Nullable;
 
 /**
@@ -77,14 +73,9 @@ public class MusicService extends HeadlessJsTaskService {
 
             // Checks whether there is a React activity
             if(reactContext == null || !reactContext.hasCurrentActivity()) {
-                String channel = null;
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    channel = NotificationChannel.DEFAULT_CHANNEL_ID;
-                }
-
+                Notification notification = Utils.createBlankSetupNotification(this);
                 // Sets the service to foreground with an empty notification
-                startForeground(1, new NotificationCompat.Builder(this, channel).build());
+                startForeground(1, notification);
                 // Stops the service right after
                 stopSelf();
             }
@@ -115,23 +106,10 @@ public class MusicService extends HeadlessJsTaskService {
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String NOTIFICATION_CHANNEL_ID = "com.guichaguri.trackplayer-setup";
-            String channelName = "Service start helper channel";
-            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            assert manager != null;
-            manager.createNotificationChannel(chan);
-
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-            Notification notification = notificationBuilder.setOngoing(true)
-                    .setSmallIcon(R.drawable.play)
-                    .setContentTitle("App is running in background")
-                    .setPriority(NotificationManager.IMPORTANCE_MIN)
-                    .setCategory(Notification.CATEGORY_SERVICE)
-                    .build();
-            startForeground(2, notification);
+            Notification notification = Utils.createBlankSetupNotification(this);
+            startForeground(1, notification);
         } else {
-            startForeground(2, new Notification());
+            startForeground(1, new Notification());
         }
         stopForeground(true);
 
