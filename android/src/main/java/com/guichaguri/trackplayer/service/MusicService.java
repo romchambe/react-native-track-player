@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.session.MediaButtonReceiver;
 
 import android.support.v4.media.session.MediaSessionCompat;
+import com.guichaguri.trackplayer.service.Utils;
 import com.facebook.react.HeadlessJsTaskService;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.Arguments;
@@ -48,14 +49,16 @@ public class MusicService extends HeadlessJsTaskService {
     }
 
     public void destroy() {
-        if(handler != null) {
-            handler.removeMessages(0);
-            handler = null;
-        }
+        synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
+          if(handler != null) {
+              handler.removeMessages(0);
+              handler = null;
+          }
 
-        if(manager != null) {
-            manager.destroy();
-            manager = null;
+          if(manager != null) {
+              manager.destroy();
+              manager = null;
+          }
         }
     }
 

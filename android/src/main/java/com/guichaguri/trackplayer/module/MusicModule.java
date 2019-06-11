@@ -67,7 +67,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
-        synchronized(this) {
+        synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
             binder = (MusicBinder)service;
             connecting = false;
 
@@ -85,7 +85,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
 
     @Override
     public void onServiceDisconnected(ComponentName name) {
-        synchronized(this) {
+        synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
             binder = null;
             connecting = false;
         }
@@ -95,7 +95,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
      * Waits for a connection to the service and/or runs the {@link Runnable} in the player thread
      */
     private void waitForConnection(Runnable r) {
-        synchronized(this) {
+        synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
           if(binder != null) {
               binder.post(r);
               return;
@@ -171,7 +171,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     @ReactMethod
     public void destroy() {
         try {
-            synchronized(this) {
+            synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
                 if(binder != null) {
                     binder.destroy();
                     binder = null;

@@ -27,6 +27,7 @@ public class Utils {
     public static final String NOTIFICATION_CHANNEL = "com.guichaguri.trackplayer";
     public static final String SETUP_NOTIFICATION_CHANNEL = "com.guichaguri.trackplayer-setup";
     public static final String LOG = "RNTrackPlayer";
+    public static final Object PLAYBACK_SERVICE_SETUP_LOCK = new Object();
 
     public static Runnable toRunnable(Promise promise) {
         return () -> promise.resolve(null);
