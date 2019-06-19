@@ -85,6 +85,17 @@ public class MusicService extends HeadlessJsTaskService {
         }
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Notification notification = Utils.createBlankSetupNotification(this);
+        startForeground(1, notification);
+        synchronized(Utils.PLAYBACK_SERVICE_SETUP_LOCK) {
+            manager = new MusicManager(this);
+            handler = new Handler();
+        }
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -107,17 +118,6 @@ public class MusicService extends HeadlessJsTaskService {
             
             return START_NOT_STICKY;
         }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Notification notification = Utils.createBlankSetupNotification(this);
-            startForeground(1, notification);
-        } else {
-            startForeground(1, new Notification());
-        }
-        stopForeground(true);
-
-        manager = new MusicManager(this);
-        handler = new Handler();
 
         super.onStartCommand(intent, flags, startId);
         return START_STICKY;
